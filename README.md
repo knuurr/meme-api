@@ -11,6 +11,18 @@ I've created two docker-compose files, each allows different hosting scenario.
 - `docker-compose-localhost.yml` for hosting on localhost (With Docker Desktop, for example)
 - `docker-compose-traefik.yml` for hosting in homelab scenario. Comes with example, battle-tested Traefik configuration.
 
+By default docker-compose expects `docker-compose.yml` file on root, so you can just rename one of files after adjustments and use:
+
+```bash
+docker-compose up -d
+```
+
+If you wish to use file with other name, or wish to not change file name, you need to specify `-f` option. Here's an example with `docker-compose-localhost.yml`:
+
+```bash
+docker-compose -f docker-compose-localhost.yml up -d
+```
+
 
 `docker-compose-localhost.yml` is enough to run this app on a local computer. Here I am running it via Docker Desktop and accessing endpoint via Postman:
 
@@ -36,6 +48,8 @@ Fetching script uses Windows toast notification, so that you can preview, how im
 ![](img/img4.png)
 
 ![](img/img5.png)
+
+
 
 
 # How to use
