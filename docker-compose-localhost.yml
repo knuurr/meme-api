@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  meme:
+    build:
+      context: .
+    volumes:
+      - ./config.yaml:/config.yaml
+      - "/path/to/folder1:/images/cats"
+      - "/path/to/folder2:/images/dogs"
+    security_opt:
+      - no-new-privileges:true
+    restart: on-failure:3
+    ports:
+      - "5000:5000"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.05'
+          memory: '128M'
+        # reservations:
+        #   cpus: '0.2'
+        #   memory: '256M'

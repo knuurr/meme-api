@@ -1,0 +1,44 @@
+version: "3.8"
+
+networks:
+  backend:
+    external: true
+
+services:
+  meme:
+    build:
+      context: .
+      # dockerfile: Dockerfile
+    container_name: meme
+    volumes:
+      - ./config.yaml:/config.yaml
+      - "/path/to/folder1:/images/cats"
+      - "/path/to/folder2:/images/dogs"
+    # depends_on:
+    #   - traefik
+    #   - authelia
+    security_opt:
+      - no-new-privileges:true
+    restart: on-failure:3
+    # ports:
+    #   - "5000:5000"
+    # expose:
+    #   - 5000
+    networks:
+      - backend
+    deploy:
+      resources:
+        limits:
+          cpus: '0.05'
+          memory: '128M'
+        # reservations:
+        #   cpus: '0.2'
+        #   memory: '256M'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${SERVICE_NAME}.rule=Host(`${SUBDOMAIN}.${ROOT_DOMAIN}`) && PathPrefix(`/meme`)"
+      - "traefik.http.routers.${SERVICE_NAME}.middlewares=api-middleware@file,stripprefix-${SERVICE_NAME},authelia@docker"
+      - "traefik.http.middlewares.stripprefix-${SERVICE_NAME}.stripprefix.prefixes=/meme"
+      - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=${PORT}"
+      - "traefik.http.routers.${SERVICE_NAME}.tls=true"
+

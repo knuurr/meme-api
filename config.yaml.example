@@ -1,0 +1,8 @@
+routes:
+  - url: /cats
+    method: GET
+    image_dir: /images/cats
+  - url: /dogs
+    method: GET
+    image_dir: /images/dogs
+
